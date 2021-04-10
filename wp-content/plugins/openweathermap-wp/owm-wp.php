@@ -43,7 +43,7 @@ class tiempoowm extends WP_Widget{
     // seteo básicos
     $token = "OWM";
     $existe = FALSE;
-    $API_KEY = "5d8ffaa624587bd96763cf6fdb771853";
+    $API_KEY = "";
 
     
     $transient_name = "Tiempo-".esc_attr($token);

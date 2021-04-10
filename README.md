@@ -11,3 +11,10 @@ OpenWeatherMap Wordpress Plugin
 * Configure language
 * Icon sets
 * Different layouts
+
+
+## Changelog
+
+### V 0.1
+* First test, works but needs a lot of work
+* API credentials, location, units, language, all is hardcoded 

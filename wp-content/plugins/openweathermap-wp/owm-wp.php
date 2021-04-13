@@ -55,7 +55,7 @@ class tiempoowm extends WP_Widget{
             $respuesta = "";
             
             $url = "https://api.openweathermap.org/data/2.5/weather?q=".$city."&appid=".$API_KEY."&units=metric&lang=es";
-            echo $url;
+            //echo $url;
         
             // Busco en Transient si ya existe el dato guardado
             $existe = get_transient($transient_name);

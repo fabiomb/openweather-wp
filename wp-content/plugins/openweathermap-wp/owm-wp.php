@@ -5,7 +5,7 @@
     Plugin URI: https://www.cakedivision.com
     Description: Datos del tiempo según la API del OpenWeatherMap
     Author: Fabio Baccaglioni
-    Version: 0.2
+    Version: 0.3
     Author URI: https://www.cakedivision.com
 */
  
@@ -41,17 +41,21 @@ class tiempoowm extends WP_Widget{
 
         // Tomo JSON
         // seteo básicos
-        $token = "OWM";
+        
         $existe = FALSE;
         $API_KEY = get_option( 'owm-api' );
+        $city = get_option( 'owm-city' );
+        if ($city == "") {$city = "Buenos Ares";}
+        $city = urlencode($city);
 
         
         if ($API_KEY <> "")
         {
-            $transient_name = "Tiempo-".esc_attr($token);
+            $transient_name = "Tiempo-OWM";
             $respuesta = "";
             
-            $url = "https://api.openweathermap.org/data/2.5/weather?q=Buenos%20Aires&appid=".$API_KEY."&units=metric&lang=es";
+            $url = "https://api.openweathermap.org/data/2.5/weather?q=".$city."&appid=".$API_KEY."&units=metric&lang=es";
+            echo $url;
         
             // Busco en Transient si ya existe el dato guardado
             $existe = get_transient($transient_name);
@@ -297,6 +301,13 @@ function owm_register_setting(){
 		'sanitize_text_field' // sanitization function
 	);
  
+	register_setting(
+		'owm-api', // settings group name
+		'owm-city', // option name
+		'sanitize_text_field' // sanitization function
+	);
+
+
 	add_settings_section(
 		'some_settings_section_id', // section ID
 		'', // title (if needed)
@@ -311,20 +322,42 @@ function owm_register_setting(){
 		'owm-admin', // page slug
 		'some_settings_section_id', // section ID
 		array( 
-			'label_for' => 'homepage_text',
+			'label_for' => 'owm-api',
 			'class' => 'owm-class', // for <tr> element
 		)
 	);
+	add_settings_field(
+		'owm-city',
+		'City',
+		'owm_city_field_html', // function which prints the field
+		'owm-admin', // page slug
+		'some_settings_section_id', // section ID
+		array( 
+			'label_for' => 'owm-city',
+			'class' => 'owm-class', // for <tr> element
+		)
+	);
+
  
 }
+function owm_city_field_html(){
  
+	$city = get_option( 'owm-city' );
+ 
+	printf(
+		'<input type="text" id="owm-city" name="owm-city" value="%s" />',
+		esc_attr( $city )
+	);
+ 
+}
+
 function owm_apykey_field_html(){
  
-	$text = get_option( 'owm-api' );
+	$owmapi = get_option( 'owm-api' );
  
 	printf(
 		'<input type="text" id="owm-api" name="owm-api" value="%s" />',
-		esc_attr( $text )
+		esc_attr( $owmapi )
 	);
  
 }

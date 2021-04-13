@@ -4,9 +4,6 @@ OpenWeatherMap Wordpress Plugin
 
 ## TODO
 
-* Admin section
-* Input for API credentials
-* Input for location (now is just fixed)
 * Configure units
 * Configure language
 * Icon sets
@@ -14,6 +11,10 @@ OpenWeatherMap Wordpress Plugin
 
 
 ## Changelog
+
+### V 0.3
+
+* Added Configure Location (city name)
 
 ### V 0.2
 

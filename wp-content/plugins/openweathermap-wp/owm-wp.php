@@ -256,101 +256,32 @@ class tiempoowm extends WP_Widget{
                         value="<?php echo esc_attr($descripcion);?>"/>               
                 <?php
     }
+
+
+    /* Admin */
+
+
+
 }
 
-function get_icon_wwo ($parametro, $turno)
+ 
+    // Add a new top level menu link to the ACP
+    function owm_admin_setup()
     {
-        if ($turno =="") {$turno = "d";}
-
-        switch ($parametro)
-        {
-            // Group 2xx: Thunderstorm
-            case "200": $codigo = "11"; break;
-            case "201": $codigo = "11"; break;
-            case "202": $codigo = "11"; break;
-            case "210": $codigo = "11"; break;
-            case "211": $codigo = "11"; break;
-            case "212": $codigo = "11"; break;
-            case "221": $codigo = "11"; break;
-            case "230": $codigo = "11"; break;
-            case "231": $codigo = "11"; break;
-            case "232": $codigo = "11"; break;
-            
-            // Group 3xx: Drizzle
-            case "300": $codigo = "09"; break;
-            case "301": $codigo = "09"; break;
-            case "302": $codigo = "09"; break;
-            case "310": $codigo = "09"; break;
-            case "311": $codigo = "09"; break;
-            case "312": $codigo = "09"; break;
-            case "313": $codigo = "09"; break;
-            case "314": $codigo = "09"; break;
-            case "321": $codigo = "09"; break;
-
-            
-            // Group 5xx: Rain
-            case "500": $codigo = "10"; break;
-            case "501": $codigo = "10"; break;
-            case "502": $codigo = "10"; break;
-            case "503": $codigo = "10"; break;
-            case "504": $codigo = "10"; break;
-
-            case "511": $codigo = "13"; break;
-
-            case "520": $codigo = "09"; break;
-            case "521": $codigo = "09"; break;
-            case "522": $codigo = "09"; break;
-            case "531": $codigo = "09"; break;
-            
-            // Group 6xx: Snow
-            case "600": $codigo = "13"; break;
-            case "601": $codigo = "13"; break;
-            case "602": $codigo = "13"; break;
-            case "611": $codigo = "13"; break;
-            case "612": $codigo = "13"; break;
-            case "613": $codigo = "13"; break;
-            case "615": $codigo = "13"; break;
-            case "616": $codigo = "13"; break;
-            case "620": $codigo = "13"; break;
-            case "621": $codigo = "13"; break;
-            case "622": $codigo = "13"; break;
-
-            // Group 7xx: Atmosphere
-            case "701": $codigo = "50"; break;
-            case "711": $codigo = "50"; break;
-            case "721": $codigo = "50"; break;
-            case "731": $codigo = "50"; break;
-            case "741": $codigo = "50"; break;
-            case "751": $codigo = "50"; break;
-            case "761": $codigo = "50"; break;
-            case "762": $codigo = "50"; break;
-            case "771": $codigo = "50"; break;
-            case "781": $codigo = "50"; break;
-
-
-
-            //Group 800: Clear
-            case "800": $codigo = "01"; break;
-
-            //Group 80x: Clouds
-            case "801": $codigo = "02"; break;
-            case "802": $codigo = "03"; break;
-            case "803": $codigo = "04"; break;
-            case "804": $codigo = "04"; break;
-            
-
-    
-        }
-        if ($codigo == "")
-        {
-            $codigo= "01d";
-        }
-
-        $icono = TIEMPO_URL . "img/". $codigo. $turno."@2x".".png";
-        return $icono;
+        add_menu_page(
+            'OWM',
+            'OWM Options',
+            'manage_options',
+            plugin_dir_path(__FILE__) . 'owm-admin.php',
+            null,
+            null,
+            20
+        );
     }
-
+// plugin_dir_url(__FILE__) . 'images/icon_wporg.png'
 add_action('widgets_init', create_function('', 'return register_widget("tiempoowm");'));
+add_action( 'admin_menu', 'owm_admin_setup' );
+
 
 //add_shortcode( "dolarplugin", "dolar_show" );
 

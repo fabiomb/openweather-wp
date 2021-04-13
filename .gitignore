@@ -1,12 +1,36 @@
 wp-admin/
 wp-includes/
-*
+
 
 # ignore everything in the "wp-content" directory, except:
 # "mu-plugins", "plugins", "themes" directory
-wp-content/*
+!wp-content/plugins/openweathermap-wp/*
+!wp-content/plugins/openweathermap-wp/owm-admin.php
 
-!wp-content/plugins/openweathermap-wp
+wp-content/themes
+wp-content/uploads
+wp-content/plugins/akismet
+wp-content/plugins/hello.php
+wp-content/plugins/index.php
+wp-activate.php
+wp-blog-header.php
+wp-comments-post.php
+index.php
+.htaccess
+wp-config-sample.php
+wp-config.php
+wp-cron.php
+wp-links-opml.php
+wp-load.php
+wp-login.php
+wp-mail.php
+wp-settings.php
+wp-signup.php
+wp-trackback.php
+xmlrpc.php
+readme.html
+license.txt
+
 
 
 

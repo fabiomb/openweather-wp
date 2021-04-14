@@ -4,13 +4,15 @@ OpenWeatherMap Wordpress Plugin
 
 ## TODO
 
-* Configure units
-* Configure language
 * Icon sets
 * Different layouts
 
-
 ## Changelog
+
+### V 0.4
+
+* Added configured units (metric, imperia, standard)
+* Added languate (en, es, etc.)
 
 ### V 0.3
 

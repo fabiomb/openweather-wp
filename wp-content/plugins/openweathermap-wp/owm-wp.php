@@ -5,7 +5,7 @@
     Plugin URI: https://www.cakedivision.com
     Description: Datos del tiempo según la API del OpenWeatherMap
     Author: Fabio Baccaglioni
-    Version: 0.3
+    Version: 0.4
     Author URI: https://www.cakedivision.com
 */
  
@@ -45,16 +45,27 @@ class tiempoowm extends WP_Widget{
         $existe = FALSE;
         $API_KEY = get_option( 'owm-api' );
         $city = get_option( 'owm-city' );
-        if ($city == "") {$city = "Buenos Ares";}
+        if ($city == "") {$city = "Buenos Ares";} // default
         $city = urlencode($city);
 
+        $units = get_option( 'owm-units' );
+        if ($units == "") {$units = "metric";} // default
+        $units = urlencode($units);
+
+        $lang = get_option( 'owm-lang' );
+        if ($lang == "") {$lang = "en";} // default
+        $lang = urlencode($lang);
+
+        $unidad = "C"; // default
+        if ($units =="imperial") {$unidad = "F";}
         
+
         if ($API_KEY <> "")
         {
             $transient_name = "Tiempo-OWM";
             $respuesta = "";
             
-            $url = "https://api.openweathermap.org/data/2.5/weather?q=".$city."&appid=".$API_KEY."&units=metric&lang=es";
+            $url = "https://api.openweathermap.org/data/2.5/weather?q=".$city."&appid=".$API_KEY."&units=".$units."&lang=".$lang."";
             //echo $url;
         
             // Busco en Transient si ya existe el dato guardado
@@ -123,7 +134,7 @@ class tiempoowm extends WP_Widget{
                             <img src="<?php echo $icono;?>" alt="<?php echo $estado_desc;?>" title="<?php echo $estado_desc;?>" class="tiempo-icono-imagen"> 
                         </span>
                         <span class="tiempo-temperatura">
-                            <?php echo $temperatura;?> °C
+                            <?php echo $temperatura;?> °<?php echo $unidad;?>
                         </span>
                     </div>
         
@@ -306,7 +317,17 @@ function owm_register_setting(){
 		'owm-city', // option name
 		'sanitize_text_field' // sanitization function
 	);
+	register_setting(
+		'owm-api', // settings group name
+		'owm-units', // option name
+		'sanitize_text_field' // sanitization function
+	);
 
+	register_setting(
+		'owm-api', // settings group name
+		'owm-lang', // option name
+		'sanitize_text_field' // sanitization function
+	);
 
 	add_settings_section(
 		'some_settings_section_id', // section ID
@@ -337,7 +358,29 @@ function owm_register_setting(){
 			'class' => 'owm-class', // for <tr> element
 		)
 	);
+	add_settings_field(
+		'owm-units',
+		'Units (standard, metric and imperial)',
+		'owm_units_field_html', // function which prints the field
+		'owm-admin', // page slug
+		'some_settings_section_id', // section ID
+		array( 
+			'label_for' => 'owm-units',
+			'class' => 'owm-class', // for <tr> element
+		)
+	);
 
+	add_settings_field(
+		'owm-lang',
+		'Language (en, es, etc.)',
+		'owm_lang_field_html', // function which prints the field
+		'owm-admin', // page slug
+		'some_settings_section_id', // section ID
+		array( 
+			'label_for' => 'owm-lang',
+			'class' => 'owm-class', // for <tr> element
+		)
+	);
  
 }
 function owm_city_field_html(){
@@ -351,6 +394,23 @@ function owm_city_field_html(){
  
 }
 
+function owm_units_field_html(){
+ 
+	$units = get_option( 'owm-units' );
+ 
+	printf(
+		'<input type="text" id="owm-units" name="owm-units" value="%s" />',
+		esc_attr( $units )
+	);
+ 
+}
+function owm_lang_field_html(){
+	$lang = get_option( 'owm-lang' );
+	printf(
+		'<input type="text" id="owm-lang" name="owm-lang" value="%s" />',
+		esc_attr( $lang )
+	);
+}
 function owm_apykey_field_html(){
  
 	$owmapi = get_option( 'owm-api' );
